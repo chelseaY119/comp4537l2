@@ -20,6 +20,7 @@ class Note {
   }
 }
 
+// I used chatGPT to help me improve the modularity of this class
 class NoteContainer {
   constructor(id) {
     this.noteContainer = document.getElementById(id);
