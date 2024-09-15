@@ -1,0 +1,76 @@
+#message-display-area{
+    margin: 3%;
+}
+
+#remove-button, #edit-button, #ok-button {
+    height: 30px;
+    width: 80px;
+    position:relative;
+    top: 15px;
+    border-radius: 2%;
+    margin: 2%;
+
+}
+
+#remove-button {
+    background-color: rgb(88, 55, 118);
+    color: rgb(251, 240, 219);
+}
+
+#add-button {
+    height: 40px;
+    width: 80px;
+    position:relative;
+    color: white;
+    border-radius:2%;
+    background-color: rgb(101, 126, 203);
+    border-top-style: 20px;
+    left: 20px;
+    top: 20px;
+}
+
+#note-wrapper{
+    display:flex;
+    justify-content: center;
+    flex-direction: row;
+    
+}
+
+#note-element {
+    margin: 2%;
+    padding: 2%;
+    background-color: rgb(150, 150, 185);
+    color:rgb(255, 255, 255);
+    width: 150px;
+    height: 50px;
+    border-radius: 2%;
+}
+
+#text-wrapper{
+    margin: 2%;
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#text-input-area{
+    position:relative;
+    top: 10px;
+
+}
+
+input {
+    width: 200px;
+    height: 100px;
+}
+
+#back-button {
+    top:30px;
+    height: 40px;
+    width: 80px;
+    position:relative;
+    color: white;
+    border-radius:2%;
+    background-color: rgb(33, 54, 117);
+}
+
