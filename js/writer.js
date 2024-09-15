@@ -26,68 +26,78 @@ class NoteContainer {
     this.noteArray = [];
   }
 
-  addNoteToContainer(note) {
+  addNoteToUI(note) {
+    const wrapper = this.createNoteWrapper(note);
+    this.noteContainer.appendChild(wrapper);
+    this.noteArray.push(note);
+  }
+
+  removeNoteUI(wrapper, note) {
+    this.noteContainer.removeChild(wrapper);
+    this.noteArray = this.noteArray.filter((n) => {
+      return n.id !== note.id;
+    });
+    note.removeNote(note.id);
+  }
+
+  editNoteUI(noteWrapper, note) {
+    const noteElement = noteWrapper.querySelector("#note-element");
+    const inputBox = document.createElement("input");
+    inputBox.value = note.content;
+    noteWrapper.innerHTML = "";
+    noteWrapper.appendChild(inputBox);
+
+    const okButton = this.createButton("ok", () => {
+      const newContent = inputBox.value.trim();
+      if (newContent) {
+        note.modifyNote(newContent);
+        this.createNoteWrapper(note);
+        this.addNoteToContainer(note);
+        noteWrapper.innerHTML = "";
+      } else {
+        alert("Please enter a valid note!");
+      }
+    });
+    noteWrapper.appendChild(okButton);
+  }
+
+  createButton(text, onClick) {
+    const button = document.createElement("button");
+    button.textContent = text;
+    button.id = `${text}-button`;
+    button.addEventListener("click", onClick);
+    return button;
+  }
+
+  createNoteWrapper(note) {
     const noteWrapper = document.createElement("div");
     noteWrapper.id = "note-wrapper";
+
     const noteElement = document.createElement("div");
     noteElement.id = "note-element";
     noteElement.textContent = note.content;
+
     noteWrapper.appendChild(noteElement);
 
-    const noteButton = document.createElement("button");
-    noteButton.textContent = "remove";
-    noteButton.id = "remove-button";
-
-    const noteButton2 = document.createElement("button");
-    noteButton2.textContent = "edit";
-    noteButton2.id = "edit-button";
+    const noteButton = this.createButton("remove", () => {
+      this.removeNoteUI(noteWrapper, note);
+    });
+    const noteButton2 = this.createButton("edit", () => {
+      this.editNoteUI(noteWrapper, note);
+    });
 
     noteWrapper.appendChild(noteButton);
     noteWrapper.appendChild(noteButton2);
 
-    this.noteContainer.appendChild(noteWrapper);
+    return noteWrapper;
+  }
 
-    this.noteArray.push(note);
-
-    noteButton.addEventListener("click", () => {
-      note.removeNote(note.id);
-      this.noteContainer.removeChild(noteWrapper);
-      this.noteArray = this.noteArray.filter((n) => {
-        return n.id !== note.id;
-      });
-    });
-
-    noteButton2.addEventListener("click", () => {
-      noteWrapper.innerHTML = "";
-      const inputBox = document.createElement("input");
-      inputBox.id = "input-value";
-      noteWrapper.append(inputBox);
-      const okButton = document.createElement("button");
-      okButton.textContent = "ok";
-      okButton.id = "ok-button";
-      noteWrapper.append(okButton);
-
-      const newContent = document.getElementById("input-value").value;
-      note.modifyNote(newContent);
-
-      okButton.addEventListener("click", () => {
-        const newContent = inputBox.value.trim();
-        if (newContent) {
-          note.modifyNote(newContent);
-          noteElement.textContent = newContent;
-          noteWrapper.innerHTML = "";
-          this.noteContainer.appendChild(noteWrapper);
-          this.addNoteToContainer(note);
-          this.noteArray = this.noteArray.map((n) =>
-            n.id === note.id ? note : n
-          );
-        }
-      });
-    });
+  addNoteToContainer(note) {
+    this.addNoteToUI(note);
   }
 
   // display all notes in the corresponding container
-  displayAllNotes(type) {
+  displayAllNotes() {
     this.noteContainer.innerHTML = "";
     this.noteArray = [];
     Object.keys(localStorage).forEach((key) => {
@@ -95,7 +105,7 @@ class NoteContainer {
         const noteData = JSON.parse(localStorage.getItem(key));
         if (noteData) {
           const note = new Note(noteData, key);
-          this.addNoteToContainer(note, type);
+          this.addNoteToContainer(note);
         }
       }
     });
