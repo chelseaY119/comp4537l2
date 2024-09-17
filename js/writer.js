@@ -169,10 +169,9 @@ document.getElementById("add-button").addEventListener("click", () => {
 
   document.getElementById("add-button-2").addEventListener("click", () => {
     const notecontent = document.getElementById("input-field").value;
-    if (notecontent) {
-      noteApp.noteContainer.NewNoteSubmission(notecontent);
-      neww.innerHTML = "";
-    }
+
+    noteApp.noteContainer.NewNoteSubmission(notecontent);
+    neww.innerHTML = "";
   });
 });
 

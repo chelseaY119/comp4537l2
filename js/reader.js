@@ -10,16 +10,15 @@ class NoteContainer {
     Object.keys(localStorage).forEach((key) => {
       if (key.startsWith("note")) {
         const noteData = JSON.parse(localStorage.getItem(key));
-        if (noteData) {
-          const noteWrapper = document.createElement("div");
-          noteWrapper.id = "note-wrapper";
-          const noteElement = document.createElement("div");
-          noteElement.id = "note-element";
-          noteElement.textContent = noteData;
-          noteWrapper.appendChild(noteElement);
 
-          this.noteContainer.appendChild(noteWrapper);
-        }
+        const noteWrapper = document.createElement("div");
+        noteWrapper.id = "note-wrapper";
+        const noteElement = document.createElement("div");
+        noteElement.id = "note-element";
+        noteElement.textContent = noteData;
+        noteWrapper.appendChild(noteElement);
+
+        this.noteContainer.appendChild(noteWrapper);
       }
     });
   }
